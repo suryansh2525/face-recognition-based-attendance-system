@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Face Recognition Attendance System</title>
+    <title>User Management - Face Recognition Attendance System</title>
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -98,56 +98,50 @@
             background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
         }
 
-        .btn-dark {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
             border: none;
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+            background: linear-gradient(135deg, #ff5252 0%, #d32f2f 100%);
+        }
+
+        .btn-outline-primary {
+            border: 2px solid #667eea;
+            color: #667eea;
             border-radius: 50px;
             padding: 12px 25px;
             font-weight: 600;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 16px rgba(44, 62, 80, 0.3);
         }
 
-        .btn-dark:hover {
+        .btn-outline-primary:hover {
+            background: #667eea;
+            color: white;
             transform: translateY(-2px);
-            box-shadow: 0 12px 24px rgba(44, 62, 80, 0.4);
-            background: linear-gradient(135deg, #243342 0%, #2c3e50 100%);
         }
 
-        .form-control {
-            border-radius: 15px;
-            border: 2px solid #e9ecef;
-            padding: 12px 20px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: rgba(255,255,255,0.9);
-        }
-
-        .form-control:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
-            background: white;
-        }
-
-        .form-label {
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 8px;
-        }
-
-        .attendance-table {
+        .users-table {
             background: white;
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        .attendance-table table {
+        .users-table table {
             width: 100%;
             border-collapse: collapse;
         }
 
-        .attendance-table th {
+        .users-table th {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 15px;
@@ -155,17 +149,17 @@
             text-align: center;
         }
 
-        .attendance-table td {
-            padding: 12px 15px;
+        .users-table td {
+            padding: 15px;
             text-align: center;
             border-bottom: 1px solid #e9ecef;
         }
 
-        .attendance-table tr:nth-child(even) {
+        .users-table tr:nth-child(even) {
             background-color: #f8f9fa;
         }
 
-        .attendance-table tr:hover {
+        .users-table tr:hover {
             background-color: #e3f2fd;
         }
 
@@ -187,18 +181,6 @@
         .stats-label {
             font-size: 0.9rem;
             opacity: 0.9;
-        }
-
-        .alert {
-            border-radius: 15px;
-            border: none;
-            padding: 15px 20px;
-            margin-bottom: 20px;
-        }
-
-        .alert-danger {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
-            color: white;
         }
 
         .empty-state {
@@ -239,14 +221,6 @@
             animation: fadeInUp 0.8s ease-out;
         }
 
-        .fade-in-up-delay-1 {
-            animation: fadeInUp 0.8s ease-out 0.2s both;
-        }
-
-        .fade-in-up-delay-2 {
-            animation: fadeInUp 0.8s ease-out 0.4s both;
-        }
-
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 2rem;
@@ -268,40 +242,27 @@
     <div class="main-container">
         <!-- Header -->
         <div class="header">
-            <h1><i class="fas fa-user-check"></i> Face Recognition Attendance System</h1>
-            <p>Automated attendance tracking using advanced face recognition technology</p>
+            <h1><i class="fas fa-users"></i> User Management</h1>
+            <p>Manage registered users in the attendance system</p>
         </div>
-
-        <!-- Alert Messages -->
-        {% if mess %}
-        <div class="alert alert-danger fade-in-up">
-            <i class="fas fa-exclamation-triangle"></i> {{ mess }}
-        </div>
-        {% endif %}
 
         <div class="row">
-            <!-- Attendance Section -->
-            <div class="col-lg-8 fade-in-up-delay-1">
+            <!-- Users List -->
+            <div class="col-lg-8 fade-in-up">
                 <div class="card">
                     <div class="card-header">
-                        <i class="fas fa-calendar-check"></i> Today's Attendance
+                        <i class="fas fa-list"></i> Registered Users
                     </div>
                     <div class="card-body">
-                        <div class="text-center mb-4">
-                            <a href="/start" class="btn btn-primary">
-                                <i class="fas fa-camera"></i> Take Attendance
-                            </a>
-                        </div>
-
                         {% if l %}
-                        <div class="attendance-table">
+                        <div class="users-table">
                             <table>
                                 <thead>
                                     <tr>
                                         <th>#</th>
                                         <th>Name</th>
                                         <th>ID</th>
-                                        <th>Time</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -310,7 +271,13 @@
                                         <td>{{ i+1 }}</td>
                                         <td><strong>{{ names[i] }}</strong></td>
                                         <td>{{ rolls[i] }}</td>
-                                        <td><i class="fas fa-clock"></i> {{ times[i] }}</td>
+                                        <td>
+                                            <a href="/deleteuser?user={{ userlist[i] }}" 
+                                               class="btn btn-danger"
+                                               onclick="return confirm('Are you sure you want to delete {{ names[i] }}? This action cannot be undone.')">
+                                                <i class="fas fa-trash"></i> Delete
+                                            </a>
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -318,47 +285,23 @@
                         </div>
                         {% else %}
                         <div class="empty-state">
-                            <i class="fas fa-users"></i>
-                            <h5>No attendance records yet</h5>
-                            <p>Start taking attendance to see records here</p>
+                            <i class="fas fa-user-slash"></i>
+                            <h5>No users registered yet</h5>
+                            <p>Add new users to get started with the attendance system</p>
                         </div>
                         {% endif %}
                     </div>
                 </div>
             </div>
 
-            <!-- Add User Section -->
-            <div class="col-lg-4 fade-in-up-delay-2">
+            <!-- Sidebar -->
+            <div class="col-lg-4 fade-in-up">
+                <!-- Stats Card -->
                 <div class="card">
                     <div class="card-header">
-                        <i class="fas fa-user-plus"></i> Add New User
+                        <i class="fas fa-chart-bar"></i> Statistics
                     </div>
                     <div class="card-body">
-                        <form action="/add" method="POST" enctype="multipart/form-data">
-                            <div class="mb-3">
-                                <label for="newusername" class="form-label">
-                                    <i class="fas fa-user"></i> Full Name
-                                </label>
-                                <input type="text" class="form-control" id="newusername" name="newusername" 
-                                       placeholder="Enter full name" required>
-                            </div>
-                            
-                            <div class="mb-4">
-                                <label for="newuserid" class="form-label">
-                                    <i class="fas fa-id-card"></i> User ID
-                                </label>
-                                <input type="number" class="form-control" id="newuserid" name="newuserid" 
-                                       placeholder="Enter user ID" required>
-                            </div>
-                            
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-dark">
-                                    <i class="fas fa-plus-circle"></i> Add New User
-                                </button>
-                            </div>
-                        </form>
-
-                        <!-- Stats Card -->
                         <div class="stats-card">
                             <div class="stats-number">{{ totalreg }}</div>
                             <div class="stats-label">Total Registered Users</div>
@@ -373,24 +316,32 @@
                     </div>
                     <div class="card-body">
                         <div class="d-grid gap-2">
-                            <a href="/listusers" class="btn btn-outline-primary">
-                                <i class="fas fa-list"></i> View All Users
+                            <a href="/" class="btn btn-outline-primary">
+                                <i class="fas fa-home"></i> Back to Home
                             </a>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Footer -->
-        <div class="text-center mt-5">
-            <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">
-                <i class="fas fa-calendar"></i> {{ datetoday2 }}
-            </p>
+                <!-- Info Card -->
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <i class="fas fa-info-circle"></i> Information
+                    </div>
+                    <div class="card-body">
+                        <p style="font-size: 0.9rem; color: #6c757d;">
+                            <i class="fas fa-calendar"></i> {{ datetoday2 }}
+                        </p>
+                        <p style="font-size: 0.9rem; color: #6c757d;">
+                            <i class="fas fa-exclamation-triangle"></i> Deleting a user will remove all their face data and retrain the model.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
+</html> 
